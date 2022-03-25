@@ -1,0 +1,8 @@
+name: MinecraftErde-Core
+version: 0.1.1b
+author: MiniGamesWorldDev Team
+website: minigamwsworld.de
+main: de.minigamesworld.mcerde.core.McErdeCore
+api-version: 1.16
+depend:
+  - ProtocolLib
