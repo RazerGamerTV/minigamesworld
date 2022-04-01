@@ -17,13 +17,15 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
 
-import static de.minigamesworld.mcerde.core.util.ReflectionUtils.*;
+import static de.minigamesworld.mcerde.core.util.ReflectionUtils.getRandomWithNeg;
 
 public class McErdeCore extends JavaPlugin {
 
     private static McErdeCore instance;
     private BukkitTask task;
     public static Map<Entity, CustomMob> entities = new HashMap<>();
+    public static int MobGroup_1 = 0;
+    public static int MobGroup_2 = 0;
 
     @Override
     public void onLoad() {
@@ -34,7 +36,7 @@ public class McErdeCore extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        this.getLogger().info("Loaded Core!");
+        this.getLogger().info("Loading Core!");
 
         PluginManager pluginManager = Bukkit.getPluginManager();
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
@@ -55,11 +57,11 @@ public class McErdeCore extends JavaPlugin {
             List<Entity> remove = new ArrayList<>();
 
             @Override
-            public void run(){
-                for(Entity stand : armorStand){
-                    int leftShowTick =  CustomMobListener.damageIndec.get(stand);
+            public void run() {
+                for (Entity stand : armorStand) {
+                    int leftShowTick = CustomMobListener.damageIndec.get(stand);
 
-                    if(leftShowTick == 0){
+                    if (leftShowTick == 0) {
                         stand.remove();
                         remove.add(stand);
                         continue;
@@ -72,9 +74,13 @@ public class McErdeCore extends JavaPlugin {
                 armorStand.removeAll(remove);
             }
 
-        }.runTaskTimer(this , 0l, 1l);
+        }.runTaskTimer(this, 0l, 1l);
 
-        SpawnMobs(20, 20, 20, Bukkit.getWorld("world"), 0, 0001, 0, 0);
+        //do this in config?
+        SpawnMobs(1, 5, 20, Bukkit.getWorld("world"), 0, 1, 0, 0);
+        SpawnMobs(1, 5, 20, Bukkit.getWorld("world"), 3, 2, 0, 0);
+
+        this.getLogger().info("LoadedCore!");
     }
 
     @Override
@@ -93,15 +99,32 @@ public class McErdeCore extends JavaPlugin {
 
             @Override
             public void run() {
+                //TODO Make this less messy
 
                 //Calc SpawnAmount
-                int diff = mobCap - entities.size();
+                int diff = 1;
+
+                if(id == 1){
+                    diff = mobCap - MobGroup_1;
+
+                    if(MobGroup_1 >= mobCap){
+                        return;
+                    }
+
+                }else if(id == 2){
+                    diff = mobCap - MobGroup_2;
+
+                    if(MobGroup_2 >= mobCap){
+                        return;
+                    }
+
+                }else {
+                    Bukkit.getLogger().warning("Id is not in register!");
+                    return;
+                }
 
                 int spawnAmount = (int) (Math.random() * (diff + 1));
                 int count = 0;
-
-                if(entities.size() >= 50)
-                    return;
 
                 //Spawning
                 while (count <= spawnAmount) {
@@ -118,13 +141,15 @@ public class McErdeCore extends JavaPlugin {
                     CustomMob mobToSpawn = mobTypes[mobDefault];
 
                     for (CustomMob type : mobTypes) {
-                        previous += type.getSpawnChance();
+                        previous += type.getSpawnChance(id);
 
                         if (random <= previous) {
                             mobToSpawn = type;
                             break;
                         }
                     }
+
+                    //TODO Fix that thing but maybe we don't need that
 
                     /*if(type.equals("Monster"))
                         if(!canSpawnMonster(loc))
@@ -138,11 +163,20 @@ public class McErdeCore extends JavaPlugin {
                         if(!canSpawnNormal(loc))
                             continue;*/
 
-                    if(mobToSpawn.getId() != id) {
-                        mobToSpawn = mobTypes[mobDefault];
-                        Bukkit.broadcastMessage("§c§lWrong ID pleas check! given id: §6" + id);
+                    //TODO Still messy...
+
+                    if(id == 1){
+                        MobGroup_1++;
+
+                    } else if(id == 2){
+                        MobGroup_2++;
+
+                    }else{
+                        Bukkit.getLogger().warning("Id is not in register!");
+                        return;
                     }
 
+                    //Container With all mobs that got spawned? <- May not be the best idea will see....
                     entities.put(mobToSpawn.spawn(loc), mobToSpawn);
                 }
 
@@ -154,7 +188,7 @@ public class McErdeCore extends JavaPlugin {
     private boolean canSpawnMonster(Location loc) {
         Block blockFeet = loc.getBlock();
 
-        if(!(loc.getWorld().getTime() < 12300 || loc.getWorld().getTime() > 23850))
+        if (!(loc.getWorld().getTime() < 12300 || loc.getWorld().getTime() > 23850))
             return !blockFeet.isPassable() && !blockFeet.isLiquid();
 
         return false;

@@ -2,6 +2,7 @@ package de.minigamesworld.mcerde.core.listener;
 
 import de.minigamesworld.mcerde.core.McErdeCore;
 import de.minigamesworld.mcerde.core.util.CustomMob;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -24,20 +25,32 @@ public class CustomMobListener implements Listener {
     @EventHandler
     public void handelEntityDeath(EntityDeathEvent e){
 
-
-
         if(!McErdeCore.entities.containsKey(e.getEntity()))
             return;
 
         e.setDroppedExp(0);
         e.getDrops().clear();
+
+        CustomMob mob = McErdeCore.entities.get(e.getEntity());
+
+        if(mob.getId() == 1){
+            McErdeCore.MobGroup_1--;
+        }else if(mob.getId() == 2){
+            McErdeCore.MobGroup_2--;
+        }else {
+            Bukkit.getLogger().warning("Id is not in register!");
+            return;
+        }
+
         McErdeCore.entities.remove(e.getEntity()).dropLoot(e.getEntity().getLocation());
     }
 
     @EventHandler
     public void handleEntityDamage(EntityDamageEvent e){
         Entity rawEntity = e.getEntity();
+
         CustomMob mob = McErdeCore.entities.get(rawEntity);
+
         LivingEntity entity = (LivingEntity)  rawEntity;
         double damage = e.getFinalDamage(), finalHealth = entity.getHealth() + entity.getAbsorptionAmount();
 
