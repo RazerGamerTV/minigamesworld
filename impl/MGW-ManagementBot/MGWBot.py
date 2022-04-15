@@ -82,4 +82,4 @@ async def on_reaction_add(reaction, user):
             await reaction.message.add_reaction('❌')
             return
 
-client.run('Hehe :)')
+client.run('No Token for you')
