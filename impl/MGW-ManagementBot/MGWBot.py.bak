@@ -85,4 +85,4 @@ async def on_reaction_add(reaction, user):
             await reaction.message.add_reaction('❌')
             return
 
-client.run('still no tocken :C')
+client.run('OTQ4OTk5MzgwMjM5Nzc3ODM3.YiD-iw.jsuHTogNo0_osTmXcFXWP8fNBYc')
