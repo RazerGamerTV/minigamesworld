@@ -10,8 +10,11 @@ import net.md_5.bungee.api.connection.ConnectedPlayer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 public class TeamBauCommandHandler extends Command implements TabExecutor {
 
@@ -116,6 +119,7 @@ public class TeamBauCommandHandler extends Command implements TabExecutor {
         ArrayList<String> arg1Tab = new ArrayList<String>();
         ArrayList<String> arg2Tab = new ArrayList<String>();
         ArrayList<String> arg3Tab = new ArrayList<String>();
+        ArrayList<String> playerTab = new ArrayList<String>();
 
         arg1Tab.add("start");
         arg1Tab.add("join");
@@ -134,7 +138,7 @@ public class TeamBauCommandHandler extends Command implements TabExecutor {
         arg2Tab.add("BW");
 
         for(ProxiedPlayer allPlayer: BungeeCord.getInstance().getPlayers()){
-            arg2Tab.add(allPlayer.getName());
+            playerTab.add(allPlayer.getName());
         }
 
         arg3Tab.add("WarGear");
@@ -150,14 +154,17 @@ public class TeamBauCommandHandler extends Command implements TabExecutor {
         arg3Tab.add("BW");
 
         if (args.length == 1)
-            return arg1Tab;
+            return arg1Tab.stream().filter(s -> s.startsWith(args[0])).collect(Collectors.toList());;
 
-        if(args.length == 2)
-            return arg2Tab;
+        if(args.length == 2 || !args[0].equals("send"))
+            return arg2Tab.stream().filter(s -> s.startsWith(args[0])).collect(Collectors.toList());;
+
+        if(args.length == 2 || args[0].equals("send"))
+            return playerTab.stream().filter(s -> s.startsWith(args[0])).collect(Collectors.toList());
 
         if(args.length == 3 && args[0].equals("send"))
-            return arg3Tab;
+            return arg3Tab.stream().filter(s -> s.startsWith(args[0])).collect(Collectors.toList());;
 
-        return null;
+        return Collections.emptyList();
     }
 }

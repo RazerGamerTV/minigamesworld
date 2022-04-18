@@ -110,6 +110,7 @@ public class CommandHandler extends Command implements TabExecutor {
         args1Tab.add("start");
         args1Tab.add("restart");
         args1Tab.add("rank");
+        args1Tab.add("console");
 
         args2TabRank.add("remove");
         args2TabRank.add("add");
@@ -119,16 +120,16 @@ public class CommandHandler extends Command implements TabExecutor {
         }
 
         if(args.length == 1)
-            return args1Tab;
+            return args1Tab.stream().filter(s -> s.startsWith(args[0])).collect(Collectors.toList());
 
         if(args.length == 2 && args[0].equals("rank"))
-            return args2TabRank;
+            return args2TabRank.stream().filter(s -> s.startsWith(args[0])).collect(Collectors.toList());;
 
         if(args.length == 2)
             return ProxyServer.getInstance().getServers().values().stream().map(ServerInfo::getName).filter(s -> s.startsWith(args[1])).collect(Collectors.toList());
 
         if(args.length == 3)
-            return args3Tab;
+            return args3Tab.stream().filter(s -> s.startsWith(args[0])).collect(Collectors.toList());;
 
         return Collections.emptyList();
     }
