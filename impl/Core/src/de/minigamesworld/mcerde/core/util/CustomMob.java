@@ -1,31 +1,27 @@
 package de.minigamesworld.mcerde.core.util;
 
 import de.minigamesworld.mcerde.core.CustomMobs.LootItem;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.PortalType;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.PufferFish;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public enum CustomMob {
 
-    Zombie("§2Zombie", 20, 0, EntityType.ZOMBIE, null, null, false, 1, new LootItem(ReflectionUtils.createItem(Material.ROTTEN_FLESH , 1, false, "§7Rotten flesh", null), 80.0d, 1, 4)),
-    Warrior_Zombie("§2Warrior-Zombie", 40, 0, EntityType.ZOMBIE, new ItemStack(Material.STONE_SWORD), ReflectionUtils.createArmorSet(new ItemStack(Material.LEATHER_HELMET), new ItemStack(Material.CHAINMAIL_CHESTPLATE), new ItemStack(Material.CHAINMAIL_LEGGINGS), new ItemStack(Material.LEATHER_BOOTS)), false, 1, new LootItem(ReflectionUtils.createItem(Material.ROTTEN_FLESH , 1, false, "&7Rotten flesh", null), 80.0d, 1, 4)),
-    Alpha_Zombie("§cAlpha-Zombie", 80,100 , EntityType.ZOMBIE, new ItemStack(Material.IRON_SWORD), ReflectionUtils.createArmorSet(new ItemStack(Material.IRON_HELMET), new ItemStack(Material.DIAMOND_CHESTPLATE), new ItemStack(Material.IRON_LEGGINGS), new ItemStack(Material.DIAMOND_BOOTS)), true, 1, new LootItem(ReflectionUtils.createItem(Material.ZOMBIE_HEAD , 1, false, "&c§lAlpha-ZombieHead", null), 100.0d, 1, 1)),
-    Spider("§7Spider", 15, 0, EntityType.SPIDER, null, null, false, 2, new LootItem(ReflectionUtils.createItem(Material.SPIDER_EYE, 1, false, "§7Spieder Eye", null), 80.0d, 1, 8)),
-    FastSpider("§7SpeedySpider", 10, 100, EntityType.CAVE_SPIDER, null, null,  false, 2, new LootItem(ReflectionUtils.createItem(Material.SPIDER_EYE, 1, false, "§7Spieder Eye", null), 80.0d, 1, 8));
+    Zombie("§2Zombie", 20, 75, EntityType.ZOMBIE, null, null, false, 1, new LootItem(ReflectionUtils.createItem(Material.ROTTEN_FLESH , 1, false, "§7Rotten flesh", null), 80.0d, 1, 4)),
+    Warrior_Zombie("§2Warrior-Zombie", 40, 24, EntityType.ZOMBIE, new ItemStack(Material.STONE_SWORD), ReflectionUtils.createArmorSet(new ItemStack(Material.LEATHER_HELMET), new ItemStack(Material.CHAINMAIL_CHESTPLATE), new ItemStack(Material.CHAINMAIL_LEGGINGS), new ItemStack(Material.LEATHER_BOOTS)), false, 1, new LootItem(ReflectionUtils.createItem(Material.ROTTEN_FLESH , 1, false, "§7Rotten flesh", null), 80.0d, 1, 4)),
+    Alpha_Zombie("§cAlpha-Zombie", 80,1 , EntityType.ZOMBIE, new ItemStack(Material.IRON_SWORD), ReflectionUtils.createArmorSet(new ItemStack(Material.IRON_HELMET), new ItemStack(Material.DIAMOND_CHESTPLATE), new ItemStack(Material.IRON_LEGGINGS), new ItemStack(Material.DIAMOND_BOOTS)), true, 1, new LootItem(ReflectionUtils.createItem(Material.ZOMBIE_HEAD , 1, false, "§c§lAlpha-ZombieHead", null), 100.0d, 1, 1)),
+    Spider("§7Spider", 15, 80, EntityType.SPIDER, null, null, false, 2, new LootItem(ReflectionUtils.createItem(Material.SPIDER_EYE, 1, false, "§7Spieder Eye", null), 80.0d, 1, 8)),
+    FastSpider("§7SpeedySpider", 10, 20, EntityType.CAVE_SPIDER, null, null,  false, 2, new LootItem(ReflectionUtils.createItem(Material.SPIDER_EYE, 1, false, "§7Spieder Eye", null), 80.0d, 1, 8));
 
     private String name;
     private int id;

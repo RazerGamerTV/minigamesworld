@@ -2,9 +2,11 @@ package de.minigamesworld.mcerde.core;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
+import de.minigamesworld.mcerde.core.listener.CraftingEvent;
 import de.minigamesworld.mcerde.core.listener.CustomMobListener;
 import de.minigamesworld.mcerde.core.listener.SpawnLocManagement;
 import de.minigamesworld.mcerde.core.util.CustomMob;
+import de.minigamesworld.mcerde.core.util.RecipeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -51,6 +53,7 @@ public class McErdeCore extends JavaPlugin {
 
         pluginManager.registerEvents(new SpawnLocManagement(), this);
         pluginManager.registerEvents(new CustomMobListener(), this);
+        pluginManager.registerEvents(new CraftingEvent(), this);
 
         new BukkitRunnable() {
             Set<Entity> armorStand = CustomMobListener.damageIndec.keySet();
@@ -80,7 +83,16 @@ public class McErdeCore extends JavaPlugin {
         SpawnMobs(1, 5, 20, Bukkit.getWorld("world"), 0, 1, 0, 0);
         SpawnMobs(1, 5, 20, Bukkit.getWorld("world"), 3, 2, 0, 0);
 
-        this.getLogger().info("LoadedCore!");
+        //Loading All Recipes
+        Bukkit.addRecipe(RecipeUtil.ElectricalComponent());
+        Bukkit.addRecipe(RecipeUtil.AdvancedCircuit());
+        Bukkit.addRecipe(RecipeUtil.Coke());
+        Bukkit.addRecipe(RecipeUtil.HardenedSteelBlock());
+        Bukkit.addRecipe(RecipeUtil.Steel());
+        Bukkit.addRecipe(RecipeUtil.SteelBlock());
+        Bukkit.addRecipe(RecipeUtil.DurableSteelBlock());
+
+        this.getLogger().info("Loaded Core!");
     }
 
     @Override

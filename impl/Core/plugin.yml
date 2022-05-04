@@ -3,6 +3,7 @@ version: 0.1.2b-29-3
 author: MiniGamesWorldDev Team
 website: minigamwsworld.de
 main: de.minigamesworld.mcerde.core.McErdeCore
-api-version: 1.16
+api-version: 1.17
+load: POSTWORLD
 depend:
   - ProtocolLib
